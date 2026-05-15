@@ -24,13 +24,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   
     const task = await prisma.task.update({
         where: { id: Number(id) },
-        //     data: {
-        //         task: body.task,
-        //         description: body.description,
-        //         category: body.category as Category,
-        //         due_date: body.due_date ? new Date(body.due_date) : null,
-        //     },
-        // })
         data: {
             ...(body.task !== undefined && { task: body.task }),
             ...(body.description !== undefined && { description: body.description }),
