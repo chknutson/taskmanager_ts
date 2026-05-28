@@ -1,22 +1,14 @@
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Category, PrismaClient } from "@/generated/prisma/client";
+import { prisma } from "@/lib/prisma";
+import { Category } from "@/generated/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
-});
+export async function GET(request: NextRequest) {
+    const tasks = await prisma.task.findMany();
 
-// const users = await prisma.user.findMany();  Template to use use in function
-
-export async function GET(request: NextRequest) { //}: Promise<NextResponse<string>> {
-    
-    const tasks = await prisma.task.findMany({
-    })
-
-    return NextResponse.json (tasks)
+    return NextResponse.json(tasks);
 }
 
-export async function POST(request: NextRequest) { //: NextResponse<string> {
+export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const task = await prisma.task.create({
@@ -25,10 +17,9 @@ export async function POST(request: NextRequest) { //: NextResponse<string> {
             description: body.description,
             category: body.category as Category,
             due_date: body.due_date ? new Date(body.due_date) : null,
-            user_id: 1, // or omit entirely
+            user_id: 1,
         },
-    })
+    });
 
-    return NextResponse.json(task)
+    return NextResponse.json(task);
 }
-

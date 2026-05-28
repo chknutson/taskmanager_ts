@@ -24,7 +24,7 @@ model Task {
   completed   Boolean   @default(false)
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
-  user        User?      @relation(fields: [user_id], references: [id])
+  user        User?     @relation(fields: [user_id], references: [id])
 }
 
 enum Category {
