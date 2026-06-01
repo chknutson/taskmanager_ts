@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
             description: body.description,
             category: body.category as Category,
             due_date: body.due_date ? new Date(body.due_date) : null,
-            user_id: 1,
+            // user_id: 1,
         },
     });
 
