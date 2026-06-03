@@ -1,8 +1,14 @@
-import { prisma } from "@/lib/prisma";
 import TaskList from "@/app/tasks/components/tasks/TaskList";
 
 export default async function TasksPage() {
-  const tasks = await prisma.task.findMany();
+  const response = await fetch(
+    "http://localhost:3000/api/tasks",
+    {
+      cache: "no-store",
+    }
+  );
+
+  const tasks = await response.json();
 
   return (
     <main className="p-6">
