@@ -1,21 +1,45 @@
 import { prisma } from "@/lib/prisma";
+import { getTodayRange } from "@/lib/date";
 import Image from "next/image";
-import TaskList from "@/app/tasks/components/tasks/TaskList";
+import TaskList from "@/app/tasks/components/tasks/TaskList"; //used for api
 
 
 /*
 
 This will be the main landing page that will show:
-  total tasks
-  completed
-  due today
-  overdue
+  total tasks -done
+  completed -done
+  due today -done
+  overdue -
 
 */
 
 
 // prisma
 export default async function Dashboard() {
+  const { start, end } = getTodayRange();
+  const dueToday = await prisma.task.count({
+    where: {
+      due_date: {
+        gte: start,
+        lt: end,
+      },
+    },
+  });
+  
+  const overdue = await prisma.task.count({
+    where: {
+      due_date: {
+        lt: start,
+      },
+      completed: false
+    }
+  });
+
+  const completed = await prisma.task.count({
+    where: { completed: true },
+  });
+  
   const totalTasks = await Promise.all([
     prisma.task.count()
   ]);
@@ -27,7 +51,10 @@ export default async function Dashboard() {
     </h1>
 
     <p className="text-gray-500 mb-6">
-      Total tasks: {totalTasks}
+        Total tasks: {totalTasks}
+        <p>Completed: {completed}</p>
+        <p>Due Today: {dueToday}</p>
+        <p>Overdue: { overdue }</p>
     </p>
 
   </main>
