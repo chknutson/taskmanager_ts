@@ -50,12 +50,12 @@ export default async function Dashboard() {
       My Tasks
     </h1>
 
-    <p className="text-gray-500 mb-6">
+    <div className="text-gray-500 mb-6">
         Total tasks: {totalTasks}
         <p>Completed: {completed}</p>
         <p>Due Today: {dueToday}</p>
         <p>Overdue: { overdue }</p>
-    </p>
+        </div>
 
   </main>
 );
