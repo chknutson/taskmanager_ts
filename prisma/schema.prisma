@@ -30,7 +30,8 @@ model Task {
 enum Category {
   Work
   Home
-  Fittness
+  Fitness
   Family
   Personal
+  School
 }
