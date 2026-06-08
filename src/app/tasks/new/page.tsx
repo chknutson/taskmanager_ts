@@ -1,3 +1,4 @@
+import { createTask } from "@/app/actions/createTask";
 import TaskForm from "@/app/tasks/components/tasks/TaskForm";
 
 export default function NewTaskPage() {
@@ -7,7 +8,7 @@ export default function NewTaskPage() {
         New Task
       </h1>
 
-      <TaskForm />
+      <TaskForm action={createTask} />
     </main>
   );
 }

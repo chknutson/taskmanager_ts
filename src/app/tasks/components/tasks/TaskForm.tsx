@@ -4,10 +4,20 @@
 import { createTask } from "../../../actions/createTask";
 import { Category } from "@/generated/prisma/enums";
 
+type TaskFormProps = {
+  task?: {
+    id: number;
+    title: string;
+    description: string | null;
+    category: Category;
+    dueDate: Date | null;
+  };
+  action: (formData: FormData) => Promise<void>;
+};
 
-export default function TaskForm() {
+export default function TaskForm({ task, action }: TaskFormProps) {
   return (
-    <form action={createTask} className="space-y-4">
+    <form action={action} className="space-y-4">
       <div>
         <label htmlFor="title" className="block font-medium">
           Title
@@ -17,6 +27,7 @@ export default function TaskForm() {
           name="title"
           type="text"
           className="border rounded p-2 w-full"
+          defaultValue={task?.title}
         />
       </div>
 
@@ -28,6 +39,7 @@ export default function TaskForm() {
           id="description"
           name="description"
           className="border rounded p-2 w-full"
+          defaultValue={task?.description ?? ""}
         />
       </div>
 
@@ -35,42 +47,22 @@ export default function TaskForm() {
         id="category"
         name="category"
         className="border rounded p-2 w-full"
-        defaultValue=""
-        >
+        // defaultValue=""
+        defaultValue={task?.category ?? ""}
+      >
         <option value="" disabled>
-            Select a category
+          Select a category
         </option>
 
         {Object.values(Category).map((category) => (
-            <option key={category} value={category}>
+          <option key={category} value={category}>
             {category}
-            </option>
+          </option>
         ))}
-        </select>
+      </select>
 
-      {/* <div>
-        <label htmlFor="category" className="block font-medium">
-        Category
-        </label>
 
-        <select
-            id="category"
-            name="category"
-            className="border rounded p-2 w-full"
-            defaultValue=""
-        >
-            <option value="" disabled>
-            Select a category
-            </option>
-
-            <option value="WORK">Work</option>
-            <option value="SCHOOL">School</option>
-            <option value="PERSONAL">Personal</option>
-            <option value="HOME">Home</option>
-        </select>
-        </div> */}
-
-        <div>
+      <div>
         <label htmlFor="dueDate" className="block font-medium">
           Due Date
         </label>
@@ -79,6 +71,11 @@ export default function TaskForm() {
           name="dueDate"
           type="date"
           className="border rounded p-2"
+          defaultValue={
+            task?.dueDate
+              ? new Date(task.dueDate).toISOString().split("T")[0]
+              : ""
+          }
         />
       </div>
 
