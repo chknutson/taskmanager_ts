@@ -1,23 +1,30 @@
 "use client";
 
-// import { createTask } from "@/app/actions/createTask";
-import { createTask } from "../../../actions/createTask";
 import { Category } from "@/generated/prisma/enums";
 
+type Task = {
+  id: number;
+  title: string;
+  description: string | null;
+  category: Category;
+  dueDate: Date | null;
+};
+
 type TaskFormProps = {
-  task?: {
-    id: number;
-    title: string;
-    description: string | null;
-    category: Category;
-    dueDate: Date | null;
-  };
+  task?: Task;
   action: (formData: FormData) => Promise<void>;
 };
 
 export default function TaskForm({ task, action }: TaskFormProps) {
   return (
     <form action={action} className="space-y-4">
+
+      {/* ✅ Hidden ID (ONLY for edit mode) */}
+      {task?.id && (
+        <input type="hidden" name="id" value={task.id} />
+      )}
+
+      {/* Title */}
       <div>
         <label htmlFor="title" className="block font-medium">
           Title
@@ -27,10 +34,12 @@ export default function TaskForm({ task, action }: TaskFormProps) {
           name="title"
           type="text"
           className="border rounded p-2 w-full"
-          defaultValue={task?.title}
+          defaultValue={task?.title ?? ""}
+          required
         />
       </div>
 
+      {/* Description */}
       <div>
         <label htmlFor="description" className="block font-medium">
           Description
@@ -43,29 +52,37 @@ export default function TaskForm({ task, action }: TaskFormProps) {
         />
       </div>
 
-      <select
-        id="category"
-        name="category"
-        className="border rounded p-2 w-full"
-        // defaultValue=""
-        defaultValue={task?.category ?? ""}
-      >
-        <option value="" disabled>
-          Select a category
-        </option>
+      {/* Category */}
+      <div>
+        <label htmlFor="category" className="block font-medium">
+          Category
+        </label>
 
-        {Object.values(Category).map((category) => (
-          <option key={category} value={category}>
-            {category}
+        <select
+          id="category"
+          name="category"
+          className="border rounded p-2 w-full"
+          defaultValue={task?.category ?? ""}
+          required
+        >
+          <option value="" disabled>
+            Select a category
           </option>
-        ))}
-      </select>
 
+          {Object.values(Category).map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
 
+      {/* Due Date */}
       <div>
         <label htmlFor="dueDate" className="block font-medium">
           Due Date
         </label>
+
         <input
           id="dueDate"
           name="dueDate"
@@ -79,12 +96,14 @@ export default function TaskForm({ task, action }: TaskFormProps) {
         />
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
-        className="border rounded px-4 py-2"
+        className="border rounded px-4 py-2 bg-blue-600 text-white hover:bg-blue-700"
       >
-        Save Task
+        {task ? "Update Task" : "Create Task"}
       </button>
+
     </form>
   );
 }
