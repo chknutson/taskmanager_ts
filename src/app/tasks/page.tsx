@@ -4,15 +4,15 @@ import { SortOrder } from "@/generated/prisma/internal/prismaNamespace";
 
 
 export default async function TasksPage() {
-  const tasks = await prisma.task.findMany({
-    orderBy: {
-      due_date: "asc",
-    }
-  });
+  const tasks = await prisma.task.findMany({});
+  //   orderBy: {
+  //     due_date: "asc",
+  //   }
+  // });
 
     
 
-  
+
 
   return (
     <main className="p-6">
