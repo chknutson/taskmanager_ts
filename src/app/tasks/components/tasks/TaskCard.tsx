@@ -1,4 +1,7 @@
+"use client";
+
 import { deleteTask } from "@/app/actions/deleteTask";
+import { toggleTask } from "@/app/actions/toggleTask";
 import Link from "next/link";
 
 type TaskCardProps = {
@@ -14,20 +17,36 @@ type TaskCardProps = {
 export default function TaskCard({ task }: TaskCardProps) {
   return (
     <div className="border rounded p-4 mb-4">
-      <span>Task: {task.task}</span>
+      <span className={task.completed ? "line-through text-gray-400" : ""}>
+        Task: {task.task}
+      </span>
 
       {task.description && (
-        <p className="text-sm text-grey-600-mt-1">
+        <p className="text-sm text-gray-600 mt-1">
           Description: {task.description}
         </p>
       )}
-
 
       {task.due_date && (
         <span className="text-gray-500 block">
           Due: {new Date(task.due_date).toLocaleDateString()}
         </span>
       )}
+
+      <form
+        action={toggleTask.bind(null, task.id, task.completed)}
+        className="mt-2"
+      >
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            defaultChecked={task.completed}
+            onChange={(e) => e.currentTarget.form?.requestSubmit()}
+          />
+          Completed
+        </label>
+      </form>
+      
 
       <div className="flex gap-4 mt-2">
         <Link

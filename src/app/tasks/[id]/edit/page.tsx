@@ -21,8 +21,8 @@ export default async function EditTaskPage({
     where: { id: taskId },
   });
 
-  console.log("LOOKING FOR TASK ID:", taskId);
-  console.log("TASK RESULT:", task);
+  // console.log("LOOKING FOR TASK ID:", taskId);
+  // console.log("TASK RESULT:", task);
     
   if (!task) return notFound();
 
