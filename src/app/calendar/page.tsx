@@ -30,7 +30,7 @@ export default async function CalendarPage() {
           href="/"
           className="bg-blue-600 text-white px-3 py-1 rounded"
         >
-          Homepage
+          Overview
         </Link>
 
         <Link

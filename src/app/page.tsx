@@ -1,89 +1,57 @@
-// import { prisma } from "@/lib/prisma";
-// import { getTodayRange } from "@/lib/date";
-// import Image from "next/image";
-// import TaskList from "@/app/tasks/components/tasks/TaskList"; //used for api
-
-
-// /*
-
-// This will be the main landing page that will show:
-//   total tasks -done
-//   completed -done
-//   due today -done
-//   overdue -
-
-// */
-
-
-// // prisma
-// export default async function Dashboard() {
-//   const { start, end } = getTodayRange();
-//   const dueToday = await prisma.task.count({
-//     where: {
-//       due_date: {
-//         gte: start,
-//         lt: end,
-//       },
-//     },
-//   });
-  
-//   const overdue = await prisma.task.count({
-//     where: {
-//       due_date: {
-//         lt: start,
-//       },
-//       completed: false
-//     }
-//   });
-
-//   const completed = await prisma.task.count({
-//     where: { completed: true },
-//   });
-  
-//   const totalTasks = await Promise.all([
-//     prisma.task.count()
-//   ]);
-
-//   return (
-//     <main className="p-6">
-//     <h1 className="text-3xl font-bold mb-2">
-//       My Tasks
-//     </h1>
-
-//     <div className="text-gray-500 mb-6">
-//         Total tasks: {totalTasks}
-//         <p>Completed: {completed}</p>
-//         <p>Due Today: {dueToday}</p>
-//         <p>Overdue: { overdue }</p>
-//         </div>
-
-//   </main>
-// );
-// }
-
-
-
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import DashboardBox from "./tasks/components/DashboardCard";
+import { getTodayRange } from "@/lib/date";
+import { endOfDaysFromToday } from "@/lib/date";
 
 export default async function HomePage() {
   const tasks = await prisma.task.findMany();
 
-  const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
+  // const total = tasks.length;
+  const completed = tasks.filter(t => t.completed);
 
-  const today = new Date().toDateString();
+  const completedCount = completed.length
 
-  const dueToday = tasks.filter(t =>
-    t.due_date &&
-    new Date(t.due_date).toDateString() === today
-  ).length;
+  const { start, end } = getTodayRange();
 
-  const overdue = tasks.filter(t =>
+  const dueTodayTasks = tasks.filter(t => {
+    if (!t.due_date || t.completed) return false;
+  
+    const due = new Date(t.due_date);
+    if (isNaN(due.getTime())) return false;
+  
+    return due >= start && due < end;
+  });
+
+  // const dueToday = tasks.filter(t =>
+  //   t.due_date &&
+  //   new Date(t.due_date).toDateString() === today)
+
+  const dueTodayCount = dueTodayTasks.length
+
+
+  const upcomingEnd = endOfDaysFromToday(3);
+
+  const upcomingTasks = tasks.filter(t => {
+    if (!t.due_date || t.completed) return false;
+  
+    const due = new Date(t.due_date);
+  
+    return due >= end && due <= upcomingEnd;
+  });
+
+  
+  const upcomingTaskCount = upcomingTasks.length
+
+
+  const overdueTasks = tasks.filter(t =>
     t.due_date &&
     new Date(t.due_date) < new Date() &&
-    !t.completed
-  ).length;
+    !t.completed)
+  
+  const overdue = overdueTasks.length
+
+
 
   return (
     <main className="p-6">
@@ -114,13 +82,13 @@ export default async function HomePage() {
         </Link>
       </div>
       
-      <div className="mb-6 space-y-1">
-        <p>Total tasks: {total}</p>
-        <p>Completed: {completed}</p>
-        <p>Due Today: {dueToday}</p>
-        <p>Overdue: {overdue}</p>
-      </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <DashboardBox title="Overdue" count={overdue} tasks={overdueTasks} />
+        <DashboardBox title="Due Today" count={dueTodayCount} tasks={dueTodayTasks} />
+        <DashboardBox title="Upcoming" count={upcomingTaskCount} tasks={upcomingTasks} />
+        <DashboardBox title="Completed" count={completedCount} tasks={completed} />
+      </div>
       
     </main>
   );

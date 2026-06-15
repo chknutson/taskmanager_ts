@@ -8,4 +8,11 @@ export function getTodayRange() {
     end.setHours(24, 0, 0, 0);
   
     return { start, end };
-  }
+}
+  
+export function endOfDaysFromToday(days: number) {
+  const d = new Date()
+  d.setDate(d.getDate() + days)
+  d.setHours(23, 59, 59, 999)
+  return d
+}

@@ -1,15 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import TaskList from "@/app/tasks/components/tasks/TaskList";
-// import { SortOrder } from "@/generated/prisma/internal/prismaNamespace";
 import Link from "next/link";
 
 
 export default async function TasksPage() {
   const tasks = await prisma.task.findMany({});
-  //   orderBy: {
-  //     due_date: "asc",
-  //   }
-  // });
 
 
 
@@ -28,7 +23,7 @@ export default async function TasksPage() {
           href="/"
           className="bg-blue-600 text-white px-3 py-1 rounded"
         >
-          Homepage
+          Overview
         </Link>
 
         <Link

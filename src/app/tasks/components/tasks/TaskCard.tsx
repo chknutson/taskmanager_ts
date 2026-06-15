@@ -33,7 +33,7 @@ export default function TaskCard({ task }: TaskCardProps) {
         </span>
       )}
 
-      <form
+      {/* <form
         action={toggleTask.bind(null, task.id, task.completed)}
         className="mt-2"
       >
@@ -45,8 +45,18 @@ export default function TaskCard({ task }: TaskCardProps) {
           />
           Completed
         </label>
+      </form>*/}
+
+      <form action={toggleTask}>
+        <input type="hidden" name="id" value={task.id} />
+        <input type="hidden" name="completed" value={String(task.completed)} />
+
+        <button className="text-green-600">
+          {task.completed ? "Mark Incomplete" : "Mark Complete"}
+        </button>
       </form>
-      
+
+
 
       <div className="flex gap-4 mt-2">
         <Link

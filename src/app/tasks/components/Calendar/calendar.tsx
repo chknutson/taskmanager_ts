@@ -23,7 +23,7 @@ export default function Calendar({ events }: props) {
       initialView="dayGridMonth"
       events={events}
       eventClick={(info) => {
-        router.push(`/tasks/${info.event.id}/edit`)
+        router.push(`/tasks/${info.event.id}/`)
       }}
     />
   );
