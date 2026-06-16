@@ -9,24 +9,11 @@ type Props = {
     }[]
   }
   
-  // export default function DashboardBox({ title, count, tasks }: Props) {
-  //   return (
-  //     <div>
-  //       <h2>
-  //         {title} ({count})
-  //       </h2>
-  
-  //       <ul>
-  //         {tasks.map((t) => (
-  //           <li key={t.id}>{t.task}</li>
-  //         ))}
-  //       </ul>
-  //     </div>
-  //   );
-// }
-
 
   export default function DashboardBox({ title, count, tasks }: Props) {
+    const displayedTasks = tasks.slice(0, 3);
+    const hasMore = tasks.length > 3;
+  
     return (
       <div>
         <h2>
@@ -34,7 +21,7 @@ type Props = {
         </h2>
   
         <ul>
-          {tasks.map((t) => (          
+          {displayedTasks.map((t) => (
             <li key={t.id}>
               <Link
                 href={`/tasks/${t.id}`}
@@ -44,8 +31,18 @@ type Props = {
               </Link>
             </li>
           ))}
+  
+          {hasMore && (
+            <li>
+              <Link
+                href="/tasks"
+                className="text-blue-600 hover:underline"
+              >
+                ...
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     );
-}
-
+  }
