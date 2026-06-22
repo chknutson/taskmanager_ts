@@ -83,11 +83,36 @@ export default async function HomePage() {
       </div>
       
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <DashboardBox title="Overdue" count={overdue} tasks={overdueTasks} />
-        <DashboardBox title="Due Today" count={dueTodayCount} tasks={dueTodayTasks} />
-        <DashboardBox title="Upcoming" count={upcomingTaskCount} tasks={upcomingTasks} />
-        <DashboardBox title="Completed" count={completedCount} tasks={completed} />
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* <DashboardBox title="Overdue" count={overdue} tasks={overdueTasks} /> */}
+        <DashboardBox
+          title="Overdue"
+          count={overdue}
+          href="/tasks?due=overdue"
+          tasks={overdueTasks}
+        />
+        {/* <DashboardBox title="Due Today" count={dueTodayCount} tasks={dueTodayTasks} /> */}
+        <DashboardBox
+          title="Due Today"
+          count={dueTodayCount}
+          href="/tasks?due=dueTodayTasks"
+          tasks={dueTodayTasks}
+        />
+        {/* <DashboardBox title="Upcoming" count={upcomingTaskCount} tasks={upcomingTasks} /> */}
+        <DashboardBox
+          title="Upcoming"
+          count={upcomingTaskCount}
+          href="/tasks?due=upcoming"
+          tasks={upcomingTasks}
+        />
+        {/* <DashboardBox title="Completed" count={completedCount} tasks={completed} /> */}
+        <DashboardBox
+          title="Completed"
+          count={completedCount}
+          href="/tasks?due=completed"
+          tasks={completed}
+        />
       </div>
       
     </main>

@@ -2,28 +2,30 @@
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-// import { info } from "console";
 import { useRouter } from "next/navigation";
 
 type Event = {
   id: string;
   title: string;
   date: string;
+  backgroundColor?: string;
+  borderColor?: string;
 };
 
-type props = {
+type Props = {
   events: Event[];
 };
 
-export default function Calendar({ events }: props) {
+export default function Calendar({ events }: Props) {
   const router = useRouter();
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       events={events}
       eventClick={(info) => {
-        router.push(`/tasks/${info.event.id}/`)
+        router.push(`/tasks/${info.event.id}`);
       }}
     />
   );

@@ -106,7 +106,11 @@ export default async function TasksPage({
       </header>
 
       {/* <TaskList tasks={tasks} /> */}
-      <TaskFilters />
+      {/* <TaskFilters /> */}
+      <TaskFilters
+        category={category}
+        due={due}
+      />
 
       <TaskList tasks={tasks} />
     </main>

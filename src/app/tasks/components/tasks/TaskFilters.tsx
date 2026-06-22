@@ -1,90 +1,191 @@
 import Link from "next/link";
+import { categoryButtonColors } from "@/lib/categoryColors";  
 
-export default function TaskFilters() {
-  return (
-    <div className="flex gap-3 mb-6">
+type Props = {
+  category?: string;
+  due?: string;
+};
 
-      <Link
-        href="/tasks?category=Family"
-        className="bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        Family
-      </Link>
+export default function TaskFilters({ category, due }: Props) {
 
-      <Link
-        href="/tasks?category=Fitness"
-        className="bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        Fitness
-      </Link>    
-          
-      <Link
-        href="/tasks?category=Home"
-        className="bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        Home
-      </Link>
+    const createFilterUrl = (key: string, value: string) => {
+        const params = new URLSearchParams();
 
-      <Link
-        href="/tasks?category=Personal"
-        className="bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        Personal
-      </Link>
+        if (category && key !== "category") {
+            params.set("category", category);
+        }
 
-      <Link
-        href="/tasks?category=School"
-        className="bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        School
-      </Link>
+        if (due && key !== "due") {
+            params.set("due", due);
+        }
 
-      <Link
-        href="/tasks?category=Work"
-        className="bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        Work
-      </Link>   
-           
-      <Link
-        href="/tasks"
-        className="bg-gray-600 text-white px-3 py-1 rounded"
-      >
-        All
-      </Link>
+        params.set(key, value);
 
-      <Link
-        href="/tasks?due=overdue"
-        className="bg-red-600 text-white px-3 py-1 rounded"
-      >
-        Overdue
-      </Link>
-          
-      <Link
-        href="/tasks?due=dueTodayTasks"
-        className="bg-red-600 text-white px-3 py-1 rounded"
-      >
-        Due Today
-      </Link>
+        return `/tasks?${params.toString()}`;
+    };
+
+
+    const categories = Object.entries(categoryButtonColors).map(
+        ([name, color]) => ({
+            name,
+            color,
+        })
+    );
     
-      <Link
-        href="/tasks?due=upcoming"
-        className="bg-red-600 text-white px-3 py-1 rounded"
-      >
-        Upcoming
-      </Link>
+//   const categories = [
+//     {
+//       name: "Family",
+//       color: "bg-purple-600",
+//     },
+//     {
+//       name: "Fitness",
+//       color: "bg-red-600",
+//     },
+//     {
+//       name: "Home",
+//       color: "bg-green-600",
+//     },
+//     {
+//       name: "Personal",
+//       color: "bg-yellow-600",
+//     },
+//     {
+//       name: "School",
+//       color: "bg-indigo-600",
+//     },
+//     {
+//       name: "Work",
+//       color: "bg-blue-600",
+//     },
+//   ];
+
+
+  const statuses = [
+    {
+      name: "Overdue",
+      value: "overdue",
+      color: "bg-red-600",
+    },
+    {
+      name: "Due Today",
+      value: "dueTodayTasks",
+      color: "bg-orange-600",
+    },
+    {
+      name: "Upcoming",
+      value: "upcoming",
+      color: "bg-blue-600",
+    },
+    {
+      name: "Completed",
+      value: "completed",
+      color: "bg-green-600",
+    },
+  ];
+
+
+  return (
+    <div className="mb-6">
+
+      {/* Categories */}
+      <div className="mb-4">
+        <h3 className="font-semibold mb-2">
+          Categories
+        </h3>
+
+        <div className="flex flex-wrap gap-3">
+
+          <Link
+            href="/tasks"
+            className={`px-3 py-1 rounded text-white ${
+              !category ? "bg-gray-800" : "bg-gray-600"
+            }`}
+          >
+            All
+          </Link>
+
+
+          {categories.map((categoryItem) => (
+            <Link
+              key={categoryItem.name}
+              href={createFilterUrl(
+                "category",
+                categoryItem.name
+              )}
+              className={`px-3 py-1 rounded text-white ${
+                category === categoryItem.name
+                  ? `${categoryItem.color} ring-2 ring-black`
+                  : categoryItem.color
+              }`}
+            >
+              {categoryItem.name}
+            </Link>
+          ))}
+
+        </div>
+      </div>
+
+
+
+      {/* Status */}
+      <div>
+
+        <h3 className="font-semibold mb-2">
+          Status
+        </h3>
+
+
+        <div className="flex flex-wrap gap-3">
+            
+        <Link
+            href={category ? `/tasks?category=${category}` : "/tasks"}
+            className={`px-3 py-1 rounded text-white ${
+                !due ? "bg-gray-800" : "bg-gray-600"
+              }`}
+            >
+             All
+            </Link>
+
+          {statuses.map((status) => (
+            <Link
+              key={status.value}
+              href={createFilterUrl(
+                "due",
+                status.value
+              )}
+              className={`px-3 py-1 rounded text-white ${
+                due === status.value
+                  ? `${status.color} ring-2 ring-black`
+                  : status.color
+              }`}
+            >
+              {status.name}
+            </Link>
+          ))}
+
+        </div>
         
-          
-      <Link
-        href="/tasks?due=completed"
-        className="bg-green-600 text-white px-3 py-1 rounded"
-      >
-        Completed
-      </Link>
+              {/* Clear Filters */}
+      {/* <div className="mt-4">
+        <Link
+          href="/tasks"
+          className="border border-gray-800 text-gray-800 px-3 py-1 rounded hover:bg-gray-800 hover:text-white"
+        >
+          Clear Filters
+        </Link>
+      </div> */}
+        {(category || due) && (
+        <div className="mt-4">
+            <Link
+            href="/tasks"
+            className="border border-gray-800 text-gray-800 px-3 py-1 rounded hover:bg-gray-800 hover:text-white"
+            >
+            Clear Filters
+            </Link>
+        </div>
+        )}
 
-
-
-
+      </div>
 
     </div>
   );

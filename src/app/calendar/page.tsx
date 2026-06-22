@@ -1,5 +1,6 @@
 import Calendar from "@/app/tasks/components/Calendar/calendar";
 import { prisma } from "@/lib/prisma";
+import { categoryCalendarColors } from "@/lib/categoryColors";
 import Link from "next/link";
 
 export default async function CalendarPage() {
@@ -11,11 +12,19 @@ export default async function CalendarPage() {
     }
   });
 
+  // const events = tasks.map((task) => ({
+  //   id:
+  //     task.id.toString(),
+  //   title: task.task,
+  //   date: task.due_date!.toISOString(),
+  // }));
+
   const events = tasks.map((task) => ({
-    id:
-      task.id.toString(),
+    id: task.id.toString(),
     title: task.task,
     date: task.due_date!.toISOString(),
+    backgroundColor: categoryCalendarColors[task.category],
+    borderColor: categoryCalendarColors[task.category],
   }));
 
   return (
