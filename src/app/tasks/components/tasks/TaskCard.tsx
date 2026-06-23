@@ -18,7 +18,7 @@ type TaskCardProps = {
 
 export default function TaskCard({ task }: TaskCardProps) {
   return (
-    <div className="border rounded p-4 mb-4">
+    <div className="border rounded p-4 mb-4 bg-red">
       <span className={task.completed ? "line-through text-gray-400" : ""}>
         Task: {task.task}
       </span>

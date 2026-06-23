@@ -7,7 +7,6 @@ import { endOfDaysFromToday } from "@/lib/date";
 export default async function HomePage() {
   const tasks = await prisma.task.findMany();
 
-  // const total = tasks.length;
   const completed = tasks.filter(t => t.completed);
 
   const completedCount = completed.length
@@ -22,10 +21,6 @@ export default async function HomePage() {
   
     return due >= start && due < end;
   });
-
-  // const dueToday = tasks.filter(t =>
-  //   t.due_date &&
-  //   new Date(t.due_date).toDateString() === today)
 
   const dueTodayCount = dueTodayTasks.length
 
@@ -54,8 +49,8 @@ export default async function HomePage() {
 
 
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold mb-4">
+    <main className="min-h-screen bg-slate-900 p-6">
+      <h1 className="text-3xl text-slate-200 font-bold mb-4">
         Task Overview
       </h1>
 
@@ -83,35 +78,39 @@ export default async function HomePage() {
       </div>
       
 
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* <DashboardBox title="Overdue" count={overdue} tasks={overdueTasks} /> */}
+      
         <DashboardBox
           title="Overdue"
           count={overdue}
           href="/tasks?due=overdue"
           tasks={overdueTasks}
+          color="red"
         />
-        {/* <DashboardBox title="Due Today" count={dueTodayCount} tasks={dueTodayTasks} /> */}
+
         <DashboardBox
           title="Due Today"
           count={dueTodayCount}
           href="/tasks?due=dueTodayTasks"
           tasks={dueTodayTasks}
+          color="blue"
         />
-        {/* <DashboardBox title="Upcoming" count={upcomingTaskCount} tasks={upcomingTasks} /> */}
+
         <DashboardBox
           title="Upcoming"
           count={upcomingTaskCount}
           href="/tasks?due=upcoming"
           tasks={upcomingTasks}
+          color="purple"
         />
-        {/* <DashboardBox title="Completed" count={completedCount} tasks={completed} /> */}
+
         <DashboardBox
           title="Completed"
           count={completedCount}
           href="/tasks?due=completed"
           tasks={completed}
+          color="green"
         />
       </div>
       

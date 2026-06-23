@@ -16,7 +16,7 @@ type TaskListProps = {
 
 export default function TaskList({ tasks }: TaskListProps) {
   return (
-    <div>
+    <div className="mb-6 bg-slate-400 rounded-xl border shadow-sm p-4">
       {tasks.map((task) => (
         <TaskCard
           key={task.id}

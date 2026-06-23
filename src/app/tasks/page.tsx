@@ -70,10 +70,12 @@ export default async function TasksPage({
 
 
   return (
-    <main className="p-6">
+    // <main className="p-6">
+    <main className="min-h-screen bg-slate-900 p-6">
+      {/* look in task list oand or task filter for screen por p-4 in the main section this is blocking background colors */}
       <header className="mb-6">
 
-        <h1 className="text-3xl font-bold mb-4">
+        <h1 className="text-3xl text-slate-200 font-bold mb-4">
         My Tasks
         </h1>
         
