@@ -107,8 +107,7 @@ export default async function TasksPage({
 
       </header>
 
-      {/* <TaskList tasks={tasks} /> */}
-      {/* <TaskFilters /> */}
+
       <TaskFilters
         category={category}
         due={due}
