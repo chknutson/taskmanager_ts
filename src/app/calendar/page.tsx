@@ -12,12 +12,6 @@ export default async function CalendarPage() {
     }
   });
 
-  // const events = tasks.map((task) => ({
-  //   id:
-  //     task.id.toString(),
-  //   title: task.task,
-  //   date: task.due_date!.toISOString(),
-  // }));
 
   const events = tasks.map((task) => ({
     id: task.id.toString(),
@@ -28,9 +22,9 @@ export default async function CalendarPage() {
   }));
 
   return (
-    <main className="p-6">
+    <main className="min-h-screen bg-slate-900 p-6">
       
-      <h1 className="text-3xl font-bold mb-4">
+      <h1 className="text-3xl text-slate-200 font-bold mb-4">
         Calendar
       </h1>
       

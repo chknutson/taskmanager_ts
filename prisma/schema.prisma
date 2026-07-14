@@ -19,7 +19,7 @@ model Task {
   user_id     Int?
   task        String
   description String
-  due_date    DateTime?
+  due_date    DateTime? @db.Date
   category    Category
   completed   Boolean   @default(false)
   created_at  DateTime  @default(now())

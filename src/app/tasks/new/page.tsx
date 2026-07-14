@@ -4,8 +4,9 @@ import Link from "next/link";
 
 export default function NewTaskPage() {
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold mb-6">
+    // <main className="p-6">
+    <main className="min-h-screen bg-slate-900 p-6">
+     <h1 className="text-3xl text-slate-200 font-bold mb-4">
         New Task
       </h1>
 

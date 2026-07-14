@@ -29,9 +29,10 @@ export default async function EditTaskPage({
 
 
 
-    return (
+  return (
+    <main className="min-h-screen bg-slate-900 p-6">
         <div className="p-6 space-y-3">
-            <h1 className="text-2xl font-bold"><strong>Task Details</strong></h1>
+            <h1 className="text-3xl text-slate-200 font-bold mb-4"><strong>Task Details</strong></h1>
             <div className="flex gap-4 mb-4">
         <Link
           href="/"
@@ -53,7 +54,8 @@ export default async function EditTaskPage({
         >
           Calendar
         </Link>
-      </div>
+        </div>
+        <div className="mb-6 bg-slate-400 rounded-xl border shadow-sm p-4">
           <p><strong>Task:  </strong>{task.task}</p>
             
           <p><strong>Description:   </strong> {task.description}</p>
@@ -65,20 +67,29 @@ export default async function EditTaskPage({
             {task.due_date ? new Date(task.due_date).toDateString() : "No due date"}
             </p>
             
-            <div className="flex gap-4 mt-2">
+          <div className="flex gap-4 mt-2">
+          <form action={toggleTask}>
+                    <input type="hidden" name="id" value={task.id} />
+                    <input type="hidden" name="completed" value={String(task.completed)} />
+
+                    <button className="text-green-400 hover:text-green-800">
+                        {task.completed ? "Mark Incomplete" : "Mark Complete"}
+                    </button>
+                </form>
+
                 <Link
                 href={`/tasks/${task.id}/edit`}
                 className="text-blue-600">
                 Edit
                 </Link>
-                <form action={toggleTask}>
+                {/* <form action={toggleTask}>
                     <input type="hidden" name="id" value={task.id} />
                     <input type="hidden" name="completed" value={String(task.completed)} />
 
-                    <button className="text-green-600">
+                    <button className="text-green-400 hover:text-green-800">
                         {task.completed ? "Mark Incomplete" : "Mark Complete"}
                     </button>
-                </form>
+                </form> */}
 
                 <form action={deleteTask}>
                     <input
@@ -94,8 +105,11 @@ export default async function EditTaskPage({
                             Delete
                           </button>
                         </form>
+                        
                 
             </div>
         </div>
+        </div>
+      </main>
       );
 }
