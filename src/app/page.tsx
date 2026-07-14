@@ -1,50 +1,65 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DashboardBox from "./tasks/components/DashboardCard";
-import { getTodayRange } from "@/lib/date";
-import { endOfDaysFromToday } from "@/lib/date";
+import {
+  getOverdueTasks,
+  getDueTodayTasks,
+  getUpcomingTasks,
+  getCompletedTasks,
+} from "@/lib/taskFilters";
 
 export default async function HomePage() {
   const tasks = await prisma.task.findMany();
 
-  const completed = tasks.filter(t => t.completed);
+  const completed = getCompletedTasks(tasks);
+const completedCount = completed.length;
 
-  const completedCount = completed.length
+const dueTodayTasks = getDueTodayTasks(tasks);
+const dueTodayCount = dueTodayTasks.length;
 
-  const { start, end } = getTodayRange();
+const upcomingTasks = getUpcomingTasks(tasks, 3);
+const upcomingTaskCount = upcomingTasks.length;
 
-  const dueTodayTasks = tasks.filter(t => {
-    if (!t.due_date || t.completed) return false;
+const overdueTasks = getOverdueTasks(tasks);
+const overdue = overdueTasks.length;
+  // const completed = tasks.filter(t => t.completed);
+
+  // const completedCount = completed.length
+
+  // const { start, end } = getTodayRange();
+
+  // const dueTodayTasks = tasks.filter(t => {
+  //   if (!t.due_date || t.completed) return false;
   
-    const due = new Date(t.due_date);
-    if (isNaN(due.getTime())) return false;
+  //   const due = new Date(t.due_date);
+  //   if (isNaN(due.getTime())) return false;
   
-    return due >= start && due < end;
-  });
+  //   return due >= start && due < end;
+  // });
 
-  const dueTodayCount = dueTodayTasks.length
+  // const dueTodayCount = dueTodayTasks.length
 
 
-  const upcomingEnd = endOfDaysFromToday(3);
+  // const upcomingEnd = endOfDaysFromToday(3);
 
-  const upcomingTasks = tasks.filter(t => {
-    if (!t.due_date || t.completed) return false;
+  // const upcomingTasks = tasks.filter(t => {
+  //   if (!t.due_date || t.completed) return false;
   
-    const due = new Date(t.due_date);
+  //   const due = new Date(t.due_date);
   
-    return due >= end && due <= upcomingEnd;
-  });
+  //   return due >= end && due <= upcomingEnd;
+  // });
 
   
-  const upcomingTaskCount = upcomingTasks.length
+  // const upcomingTaskCount = upcomingTasks.length
 
 
-  const overdueTasks = tasks.filter(t =>
-    t.due_date &&
-    new Date(t.due_date) < new Date() &&
-    !t.completed)
+  // const overdueTasks = tasks.filter(t =>
+  //   t.due_date &&
+  //   new Date(t.due_date) < new Date() &&
+  //   !t.completed)
   
-  const overdue = overdueTasks.length
+  // const overdue = overdueTasks.length
 
 
 

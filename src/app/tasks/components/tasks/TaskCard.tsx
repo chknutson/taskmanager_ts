@@ -19,6 +19,7 @@ type TaskCardProps = {
 
 
 export default function TaskCard({ task }: TaskCardProps) {
+  // console.log(task.due_date);
   return (
     <div
       className={`rounded-xl border p-4 shadow-sm hover:shadow-md transition ${
@@ -51,7 +52,10 @@ export default function TaskCard({ task }: TaskCardProps) {
 
         {task.due_date && (
           <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">
-            Due {new Date(task.due_date).toLocaleDateString()}
+            {/* Due {new Date(task.due_date).toLocaleDateString()} */}
+            Due {task.due_date.toLocaleDateString("en-US", {
+              timeZone: "UTC",
+            })}
           </span>
         )}
       </div>

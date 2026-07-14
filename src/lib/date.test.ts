@@ -15,13 +15,13 @@ describe("getTodayRange", () => {
 
     const { start } = getTodayRange();
 
-    expect(start.getFullYear()).toBe(2026);
-    expect(start.getMonth()).toBe(6); // 0-indexed, so 6 = July
-    expect(start.getDate()).toBe(8);
-    expect(start.getHours()).toBe(0);
-    expect(start.getMinutes()).toBe(0);
-    expect(start.getSeconds()).toBe(0);
-    expect(start.getMilliseconds()).toBe(0);
+    expect(start.getUTCFullYear()).toBe(2026);
+    expect(start.getUTCMonth()).toBe(6); // 0-indexed, so 6 = July
+    expect(start.getUTCDate()).toBe(8);
+    expect(start.getUTCHours()).toBe(0);
+    expect(start.getUTCMinutes()).toBe(0);
+    expect(start.getUTCSeconds()).toBe(0);
+    expect(start.getUTCMilliseconds()).toBe(0);
   });
 
   it("returns end at midnight the next day", () => {
@@ -29,10 +29,10 @@ describe("getTodayRange", () => {
 
     const { end } = getTodayRange();
 
-    expect(end.getDate()).toBe(9);
-    expect(end.getHours()).toBe(0);
-    expect(end.getMinutes()).toBe(0);
-    expect(end.getSeconds()).toBe(0);
+    expect(end.getUTCDate()).toBe(9);
+    expect(end.getUTCHours()).toBe(0);
+    expect(end.getUTCMinutes()).toBe(0);
+    expect(end.getUTCSeconds()).toBe(0);
   });
 
   it("handles month rollover correctly", () => {
@@ -40,11 +40,11 @@ describe("getTodayRange", () => {
 
     const { start, end } = getTodayRange();
 
-    expect(start.getDate()).toBe(31);
-    expect(start.getMonth()).toBe(6); // July
+    expect(start.getUTCDate()).toBe(31);
+    expect(start.getUTCMonth()).toBe(6); // July
 
-    expect(end.getDate()).toBe(1);
-    expect(end.getMonth()).toBe(7); // August
+    expect(end.getUTCDate()).toBe(1);
+    expect(end.getUTCMonth()).toBe(7); // August
   });
 });
 
@@ -62,11 +62,11 @@ describe("endOfDaysFromToday", () => {
 
     const result = endOfDaysFromToday(3);
 
-    expect(result.getDate()).toBe(11);
-    expect(result.getHours()).toBe(23);
-    expect(result.getMinutes()).toBe(59);
-    expect(result.getSeconds()).toBe(59);
-    expect(result.getMilliseconds()).toBe(999);
+    expect(result.getUTCDate()).toBe(11);
+    expect(result.getUTCHours()).toBe(23);
+    expect(result.getUTCMinutes()).toBe(59);
+    expect(result.getUTCSeconds()).toBe(59);
+    expect(result.getUTCMilliseconds()).toBe(999);
   });
 
   it("returns the end of today when days is 0", () => {
@@ -74,9 +74,9 @@ describe("endOfDaysFromToday", () => {
 
     const result = endOfDaysFromToday(0);
 
-    expect(result.getDate()).toBe(8);
-    expect(result.getHours()).toBe(23);
-    expect(result.getMinutes()).toBe(59);
+    expect(result.getUTCDate()).toBe(8);
+    expect(result.getUTCHours()).toBe(23);
+    expect(result.getUTCMinutes()).toBe(59);
   });
 
   it("handles month rollover correctly", () => {
@@ -84,7 +84,7 @@ describe("endOfDaysFromToday", () => {
 
     const result = endOfDaysFromToday(3);
 
-    expect(result.getMonth()).toBe(7); // August
-    expect(result.getDate()).toBe(2);
+    expect(result.getUTCMonth()).toBe(7); // August
+    expect(result.getUTCDate()).toBe(2);
   });
 });
